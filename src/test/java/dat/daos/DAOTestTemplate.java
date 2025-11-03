@@ -28,7 +28,7 @@ class DAOTestTemplate {
     }
 
     @BeforeEach
-    void setup() {
+    void setup(){
         PopulatorTemplate.populate();
     }
 
@@ -36,11 +36,13 @@ class DAOTestTemplate {
         //delete all data
     void teardown() {
         EntityManager em = emf.createEntityManager();
+
         em.getTransaction().begin();
         //delete everything
         em.createNativeQuery("TRUNCATE TABLE * RESTART IDENTITY CASCADE")
                 .executeUpdate();
         em.getTransaction().commit();
+
         em.close();
     }
 
@@ -64,7 +66,6 @@ class DAOTestTemplate {
         assertThat((Iterable<?>) actual, containsInAnyOrder(expected.toArray()));
     }
 
-
     @Test
     void create() {
         Object expected = new Object();
@@ -79,7 +80,7 @@ class DAOTestTemplate {
     void update() {
         int id = 1;
         Object expected = new Object();
-        Object created = dao.update(id, expected);
+        Object created = dao.update(id,expected);
         //expecteds id
         Optional<Object> actualinDB = dao.read(id);
         assertEquals(expected, actualinDB.get());
