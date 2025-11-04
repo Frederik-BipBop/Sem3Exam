@@ -31,7 +31,7 @@ public class Candidate {
     @Column(nullable = false, length = 50)
     private String education;
 
-    @OneToMany(mappedBy = "candidate", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "candidate",fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @Builder.Default
     @EqualsAndHashCode.Exclude
     private Set<CandidateSkill> candidateSkills = new HashSet<>();

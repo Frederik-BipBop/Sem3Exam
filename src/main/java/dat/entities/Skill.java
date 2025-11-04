@@ -3,7 +3,6 @@ package dat.entities;
 import dat.enums.SkillCategory;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,9 +18,11 @@ public class Skill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Setter
     @Column(nullable = false)
     private String name;
+
     @Setter
     @Column(length = 1000)
     private String description;
@@ -30,12 +31,15 @@ public class Skill {
     @Enumerated(EnumType.STRING)
     private SkillCategory category;
 
-    @OneToMany(mappedBy = "skill", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+
+    @OneToMany(mappedBy = "skill",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            fetch = FetchType.LAZY)
     @Builder.Default
     @EqualsAndHashCode.Exclude
     private Set<CandidateSkill> candidateSkills = new HashSet<>();
 
-    // helpers
+    // Helpers
     public boolean addCandidateSkill(CandidateSkill cs) {
         if (candidateSkills.add(cs)) cs.setSkill(this);
         return true;

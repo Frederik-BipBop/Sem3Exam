@@ -21,7 +21,9 @@ public class CandidateSkill {
     @EqualsAndHashCode.Exclude
     private Candidate candidate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @EqualsAndHashCode.Exclude
     private Skill skill;
+
+
 }
