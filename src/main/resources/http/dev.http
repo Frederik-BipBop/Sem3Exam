@@ -33,3 +33,51 @@ Authorization: Bearer {{jwt_token}}
 {
     "role": "admin"
 }
+
+### GET /candidates
+GET {{url}}/candidates
+
+### GET /candidates/{id}
+GET {{url}}/candidates/1
+
+
+### POST /candidates
+POST {{url}}/candidates
+Authorization: Bearer {{jwt_token}}
+Content-Type: application/json
+
+{
+  "name": "Eva Nielsen",
+  "phone": "55555555",
+  "education": "Javascript Developer",
+  "skillIds": []
+}
+
+
+### PUT /candidates/{id}
+PUT {{url}}/candidates/2
+Authorization: Bearer {{jwt_token}}
+Content-Type: application/json
+
+{
+  "phone": "88888888",
+  "education": "Bachelor i Datamatiker",
+  "skillIds": [
+    1,
+    4
+  ]
+}
+
+
+### DELETE /candidates/{id}3
+DELETE {{url}}/candidates/3
+Authorization: Bearer {{jwt_token}}
+
+
+### PUT /candidates/{candidateId}/skills/{skillId} - link skill
+PUT {{url}}/candidates/1/skills/2
+Authorization: Bearer {{jwt_token}}
+
+### DELETE /candidates/{candidateId}/skills/{skillId} – unlink igen
+DELETE {{url}}/candidates/1/skills/2
+Authorization: Bearer {{jwt_token}}

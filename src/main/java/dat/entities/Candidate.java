@@ -28,7 +28,7 @@ public class Candidate {
     private String phone;
 
     @Setter
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 50)
     private String education;
 
     @OneToMany(mappedBy = "candidate", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
