@@ -1,162 +1,84 @@
 # README
-Frederik Bastiansen
+Name: Frederik Bastiansen
+How many User-stories made: 5 / 8
 
-## Setup
+# Setup
+Opret en PostgreSQL database (f.eks. candidate)
 
-1. Fork project
-2. Create a database
-3. Update `config.properties` variable `DB_NAME` to match your database name
-4. Open Maven tab (right-side)
-5. Navigate to Lifecycle -> verify
-6. Right-click and 'Run Maven Build'
+Opdater config.properties med dine DB-loginoplysninger:
 
-## API Documentation
+DB_NAME=candidate
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
 
-### Example
-| Method | URL | Request Body (JSON) | Response (JSON) | Error (e) |
-| --- | --- | --- | --- | --- |
-| GET | `/api/users` | | [user, user, …] (1) | |
-| GET | `/api/users/{id}` | | user (1) | (e1) |
-| POST | `/api/users`	| user(1) without id | | (e2) |
-| UPDATE | `/api/users/{id}` | user(1) without id | user (1) | |
+Kør Main.java – server starter på:
+ http://localhost:7070/api
 
-<details>
-<summary>User (1)</summary>
-
-> Do not provide ID for POST
-
-```json
-{
-  "id": Integer,
-  "username": String,
-  "email": String (email)
-}
-```
-
-</details>
-
-<details>
-<summary>Error (e1)</summary>
-
-```json
-{ status : 404, "msg": "No content found for this request" }
-```
-
-</details>
-
-<details>
-<summary>Error (e2)</summary>
-
-```json
-{ status : 400, "msg": "Field ‘xxx’ is required" } (for example, no name provided)
-```
-
-</details>
-
----
-
-### Auth
-
-| Method | URL                     | Request Body (JSON) | Response (JSON) | Error (e)  |
-|--------|-------------------------|---------------------|-----------------|------------|
-| GET    | `/api/auth/healthcheck` |                     | message (1)     |            |
-| GET    | `/api/auth/test`        |                     | message (1)     |            |
-| POST   | `/api/auth/register`    | user (2)            | token (3)       | (e1)       |
-| POST   | `/api/auth/login`	      | user (2)            | token (3)       | (e2), (e3) |
-| POST   | `/api/auth/user/role`   | role (4)            | message (1)     | (e4        |
+Populator kører igennem main
 
 
-<details>
-<summary>Message (1)</summary>
 
-```json
-{
-  "msg": String
-}
-```
+# Candidate API Documentation
+| Method   | Endpoint                                         | Role   | Description                                    |
+| -------- | ------------------------------------------------ | ------ | ---------------------------------------------- |
+| `GET`    | `/api/candidates`                                | ANYONE | Get all candidates                             |
+| `GET`    | `/api/candidates/{id}`                           | ANYONE | Get one candidate (includes skill market data) |
+| `POST`   | `/api/candidates`                                | ADMIN  | Create a new candidate                         |
+| `PUT`    | `/api/candidates/{id}`                           | ADMIN  | Update a candidate                             |
+| `DELETE` | `/api/candidates/{id}`                           | ADMIN  | Delete a candidate                             |
+| `PUT`    | `/api/candidates/{candidateId}/skills/{skillId}` | ADMIN  | Link existing skill to candidate               |
+| `DELETE` | `/api/candidates/{candidateId}/skills/{skillId}` | ADMIN  | Remove skill from candidate                    |
+| `GET`    | `/api/candidates/filter?category={category}`     | ANYONE | Filter candidates by skill category            |
 
-</details>
 
-<details>
-<summary>User (2)</summary>
+# Skills API Documentation
 
-```json
-{
-  "username": String,
-  "password": String
-}
-```
+| Method   | Endpoint           | Role   | Description        |
+| -------- | ------------------ | ------ | ------------------ |
+| `GET`    | `/api/skills`      | ANYONE | Get all skills     |
+| `GET`    | `/api/skills/{id}` | ANYONE | Get one skill      |
+| `POST`   | `/api/skills`      | ADMIN  | Create a new skill |
+| `PUT`    | `/api/skills/{id}` | ADMIN  | Update a skill     |
+| `DELETE` | `/api/skills/{id}` | ADMIN  | Delete a skill     |
 
-</details>
 
-<details>
-<summary>Token (3)</summary>
 
-```json
-{
-  "token": String,
-  "username": String
-}
-```
+# Auth API Documentation
+| Method | URL                 | Body                                 | Role   | Description           |
+| ------ | ------------------- | ------------------------------------ | ------ | --------------------- |
+| GET    | `/auth/healthcheck` |                                      | ANYONE | Simple healthcheck    |
+| POST   | `/auth/register`    | `{ "username": "", "password": "" }` | ANYONE | Register new user     |
+| POST   | `/auth/login`       | `{ "username": "", "password": "" }` | ANYONE | Login and receive JWT |
+| POST   | `/auth/user/role`   | `{ "role": "admin" }`                | USER   | Promote user to admin |
 
-</details>
 
-</details>
 
-<details>
-<summary>Role (4)</summary>
+# Error codes
+| Status | Description                          | Example                                               |
+| ------ | ------------------------------------ | ----------------------------------------------------- |
+| 400    | Bad Request (validation failed)      | `{ "status": 400, "message": "name is required" }`    |
+| 401    | Unauthorized (missing/invalid token) | `{ "status": 401, "message": "Unauthorized" }`        |
+| 404    | Not Found                            | `{ "status": 404, "message": "Candidate not found" }` |
+| 500    | Server Error                         | `{ "status": 500, "message": "Database error" }`      |
 
-```json
-{
-  "role": String
-}
-```
+# Tech used
 
-</details>
+Java 17
 
-<details>
-<summary>Error (1)</summary>
+Maven – Dependency Management
 
-```json
-{
-  "warning": "User with username: {username} already exist",
-  "status": "400 Bad Request"
-}
-```
+Javalin – REST Framework
 
-</details>
+Hibernate (JPA) – ORM
 
-<details>
-<summary>Error (2)</summary>
+PostgreSQL – Database
 
-```json
-{
-  "msg": "No user found with username: {username}"
-}
-```
+Lombok – Code simplification
 
-</details>
+JWT Security – Authentication and roles
 
-<details>
-<summary>Error (3)</summary>
+FetchTools + SkillService – External API integration
 
-```json
-{
-  "msg": "Wrong password"
-}
-```
+DTO Layer – Input/Output separation
 
-</details>
-
-<details>
-<summary>Error (4)</summary>
-
-```json
-{
-  "msg": "No user found with username: {username}"
-}
-```
-
-</details>
-
----
+Populator – Seed test data
