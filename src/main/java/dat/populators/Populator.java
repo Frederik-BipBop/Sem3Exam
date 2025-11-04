@@ -49,12 +49,12 @@ public class Populator {
         Candidate anna = Candidate.builder()
                 .name("Anna Larsen")
                 .phone("11111111")
-                .education("B.Sc. Computer Science")
+                .education("Software Engineer")
                 .build();
         Candidate bo = Candidate.builder()
                 .name("Bo Jensen")
                 .phone("22222222")
-                .education("AP Datamatiker")
+                .education("Datamatiker")
                 .build();
 
         candidateDAO.create(anna);

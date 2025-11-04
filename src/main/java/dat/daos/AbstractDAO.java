@@ -15,7 +15,7 @@ import java.util.Optional;
 public abstract class AbstractDAO<t, i> implements IDAO<t, i> {
     @Getter
     private final Logger LOGGER;
-    private EntityManagerFactory emf;
+    protected final EntityManagerFactory emf;
     private final String getAllQuery;
 
     public AbstractDAO(EntityManagerFactory emf, String getAllQuery, Logger LOGGER) {

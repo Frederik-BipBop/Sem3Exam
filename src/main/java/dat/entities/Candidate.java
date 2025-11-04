@@ -19,15 +19,19 @@ public class Candidate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
+    @Column(nullable = false, length = 20)
     private String name;
 
-    @Column(unique = true, nullable = false, length = 20)
+    @Setter
+    @Column(nullable = false, length = 11)
     private String phone;
 
+    @Setter
+    @Column(nullable = false, length = 20)
     private String education;
 
-    @OneToMany(mappedBy = "candidate",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "candidate", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @Builder.Default
     @EqualsAndHashCode.Exclude
     private Set<CandidateSkill> candidateSkills = new HashSet<>();
