@@ -51,6 +51,7 @@ public class CandidateController implements IController<CandidateInputDTO, Long>
                     .category(s.getCategory() == null ? null : s.getCategory().name())
                     .popularityScore(market == null ? null : market.getPopularityScore())
                     .averageSalary(market == null ? null : market.getAverageSalary())
+                    .updatedAt(market == null ? null : market.getUpdatedAt())
                     .build();
             enrichedSkills.add(skillDTO);
         }

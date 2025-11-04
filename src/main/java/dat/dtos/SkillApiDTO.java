@@ -12,7 +12,7 @@ public class SkillApiDTO {
     private String name;
     private String slug;
     private String category;
-
+    private String updatedAt;
     private Integer popularityScore; // fra ekstern API
     private Integer averageSalary;   // fra ekstern API
 }
