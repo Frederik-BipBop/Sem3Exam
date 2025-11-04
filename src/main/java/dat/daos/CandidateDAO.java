@@ -66,8 +66,7 @@ public class CandidateDAO extends AbstractDAO<Candidate, Long> {
             em.close();
         }
     }
-
-    /* ========= UPDATE der returnerer den MERGEDE entity (ikke "existing") ========= */
+    // UPDATE der returnerer den MERGEDE entity
 
     @Override
     public Candidate update(Long id, Candidate detachedWithChanges) {
@@ -85,8 +84,7 @@ public class CandidateDAO extends AbstractDAO<Candidate, Long> {
             em.close();
         }
     }
-
-    /* ========= DELETE der rydder join-rækker først (FK-safe) ========= */
+    // DELETE der rydder join-rækker først
 
     @Override
     public boolean delete(Long id) throws DatabaseException {
@@ -112,12 +110,8 @@ public class CandidateDAO extends AbstractDAO<Candidate, Long> {
             em.close();
         }
     }
+    // LINK / UNLINK
 
-    /* ========= LINK / UNLINK ========= */
-
-    /**
-     * Linker en skill til en kandidat. Gør intet hvis link allerede findes.
-     */
     public void addSkillToCandidate(Long candidateId, Long skillId) {
         EntityManager em = emf.createEntityManager();
         var tx = em.getTransaction();
@@ -159,9 +153,6 @@ public class CandidateDAO extends AbstractDAO<Candidate, Long> {
         }
     }
 
-    /**
-     * Fjerner link mellem kandidat og skill. Gør intet hvis link ikke findes.
-     */
     public void removeSkillFromCandidate(Long candidateId, Long skillId) {
         EntityManager em = emf.createEntityManager();
         var tx = em.getTransaction();

@@ -81,3 +81,15 @@ Authorization: Bearer {{jwt_token}}
 ### DELETE /candidates/{candidateId}/skills/{skillId} – unlink igen
 DELETE {{url}}/candidates/1/skills/2
 Authorization: Bearer {{jwt_token}}
+
+### GET /candidates/filter?category=PROG_LANG
+GET {{url}}/candidates/filter?category=PROG_LANG
+
+### GET /candidates/filter?category=DEVOPS
+GET {{url}}/candidates/filter?category=DEVOPS
+
+### Kandidat uden skills
+GET {{url}}/candidates/4
+
+### Ukendt kandidat
+GET {{url}}/candidates/999999
